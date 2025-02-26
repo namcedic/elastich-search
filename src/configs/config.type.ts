@@ -20,6 +20,11 @@ export type AppConfig = {
   env: Environment;
 };
 
+export type ElasticSearchConfig = {
+  username: string;
+  password: string;
+};
+
 export type DatabaseConfig = {
   host: string;
   name: string;
@@ -42,4 +47,5 @@ export type AllConfigType = {
   app: AppConfig;
   auth: AuthConfig;
   redis: RedisConfig;
+  elasticsearch: ElasticSearchConfig;
 };

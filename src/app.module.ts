@@ -8,7 +8,9 @@ import { envConfigs } from './configs';
 import { typeOrmConfig } from './database/typeorm.config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
-import {BooksModule} from "./books/books.module";
+import { UsersModule } from './modules/users/users.module';
+import { BooksModule } from './modules/books/books.module';
+import { ElasticSearchModule } from './modules/elastic-search/elastic-search.module';
 @Module({
   imports: [
     HttpModule,
@@ -29,6 +31,8 @@ import {BooksModule} from "./books/books.module";
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
+    UsersModule,
+    ElasticSearchModule,
 
   ],
   controllers: [AppController],

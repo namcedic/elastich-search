@@ -10,7 +10,6 @@ import {
 import { HttpAdapterHost } from '@nestjs/core';
 import { ErrorCode } from '../constants/error';
 import { ThrottlerException } from '@nestjs/throttler';
-import { GqlContextType } from '@nestjs/graphql';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -22,27 +21,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   async catch(exception: any, host: ArgumentsHost): Promise<void> {
     console.log('🔥 Exception occurred:', exception);
-
-    // 🛠️ Handle GraphQL Errors
-    if (host.getType<GqlContextType>() === 'graphql') {
-      // Extract validation errors properly
-      const errorResponse = exception?.response || {};
-      const errorCode = errorResponse?.errorCode || ErrorCode.UNKNOWN_ERROR;
-      const errorMessage =
-        errorResponse?.errorMessage instanceof Array
-          ? errorResponse.errorMessage
-              .map((err) => `${err.property}: ${err.errors}`)
-              .join(', ')
-          : errorResponse?.message || exception.message;
-
-      throw new HttpException(
-        {
-          errorCode,
-          message: errorMessage,
-        },
-        exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST,
-      );
-    }
 
     // 🛠️ Handle REST Errors
     const { httpAdapter } = this.httpAdapterHost;
