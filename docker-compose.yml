@@ -10,8 +10,10 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}  # Lấy mật khẩu từ file .env
     ports:
       - "9200:9200"
+      - "9300:9300"
     expose:
       - "9200"
+      - "9300"
     volumes:
       - es_data:/usr/share/elasticsearch/data
     networks:
